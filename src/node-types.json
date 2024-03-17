@@ -1,18 +1,8 @@
 [
   {
-    "type": "project",
+    "type": "note",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "tags",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "source_file",
@@ -24,10 +14,6 @@
       "types": [
         {
           "type": "note",
-          "named": true
-        },
-        {
-          "type": "project",
           "named": true
         },
         {
@@ -74,19 +60,11 @@
     "named": false
   },
   {
-    "type": "-",
-    "named": false
-  },
-  {
-    "type": ":",
+    "type": "- ",
     "named": false
   },
   {
     "type": "@",
     "named": false
-  },
-  {
-    "type": "note",
-    "named": true
   }
 ]

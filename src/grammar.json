@@ -5,68 +5,10 @@
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
-        "name": "_element"
+        "name": "_item"
       }
     },
-    "_element": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "project"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "task"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "note"
-        }
-      ]
-    },
-    "project": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "PATTERN",
-            "value": "[^:\\n]+"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "\n"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_project_content"
-                  }
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
-    },
-    "_project_content": {
+    "_item": {
       "type": "CHOICE",
       "members": [
         {
@@ -90,8 +32,16 @@
           "type": "FIELD",
           "name": "content",
           "content": {
-            "type": "PATTERN",
-            "value": "[^\\n@]+"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[^\\n@]+"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -113,8 +63,17 @@
       ]
     },
     "note": {
-      "type": "PATTERN",
-      "value": "[^\\n]+\\n"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[^\\n-]+"
+        },
+        {
+          "type": "STRING",
+          "value": "\n"
+        }
+      ]
     },
     "tags": {
       "type": "REPEAT1",

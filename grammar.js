@@ -1,31 +1,42 @@
 module.exports = grammar({
   name: "taskpaper",
 
+  extras: ($) => [
+    /\s/, // Treat spaces and tabs as non-significant globally
+  ],
+
   rules: {
-    source_file: ($) => repeat($._element),
+    source_file: ($) => repeat($._item),
 
-    _element: ($) => choice($.project, $.task, $.note),
+    _item: ($) => choice($.task, $.note), // Define items as either tasks or notes
 
-    project: ($) =>
+    task: ($) =>
       seq(
-        field("name", /[^:\n]+/),
-        ":",
-        optional(seq("\n", repeat($._project_content))),
+        "- ", // A task starts with '- '
+        field("content", /[^\n@]+/),
+        optional($.tags), // Tasks may have tags
+        "\n", // Tasks end with a newline
       ),
 
-    _project_content: ($) => choice($.task, $.note),
-
-    task: ($) => seq("- ", field("content", /[^\n@]+/), optional($.tags), "\n"),
-
-    note: ($) => /[^\n]+\n/,
+    note: ($) =>
+      seq(
+        /[^\n-]+/, // A note contains anything except the start of a new task
+        "\n", // Notes end with a newline
+      ),
 
     tags: ($) =>
       repeat1(
         seq(
-          " ",
-          "@",
-          field("key", /\w+/),
-          optional(seq("(", field("value", /[^)\n]+/), ")")),
+          " ", // Tags are preceded by a space
+          "@", // A tag starts with '@'
+          field("key", /\w+/), // Tag key: sequence of word characters
+          optional(
+            seq(
+              "(", // Tags may have values enclosed in parentheses
+              field("value", /[^)\n]+/), // The tag value: anything except a closing parenthesis or newline
+              ")",
+            ),
+          ),
         ),
       ),
   },

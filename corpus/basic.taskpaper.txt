@@ -1,7 +1,3 @@
-Project:
-    - Task @done
-    Some note about the project
-
-Another Project: @urgent
-    - Nested Task
-    A detail about the nested task
+- task
+- another task that is @done
+a note
