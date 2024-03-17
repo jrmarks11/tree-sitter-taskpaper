@@ -2,13 +2,20 @@ module.exports = grammar({
   name: "taskpaper",
 
   rules: {
-    source_file: ($) => repeat($._item),
+    source_file: ($) => repeat($._element),
 
-    _item: ($) => choice($.project, $.task, $.note),
+    _element: ($) => choice($.project, $.task, $.note),
 
-    project: ($) => seq(field("name", /.+/), ":", optional($.tags), "\n"),
+    project: ($) =>
+      seq(
+        field("name", /[^:\n]+/),
+        ":",
+        optional(seq("\n", repeat($._project_content))),
+      ),
 
-    task: ($) => seq("-", field("content", /.+/), optional($.tags), "\n"),
+    _project_content: ($) => choice($.task, $.note),
+
+    task: ($) => seq("- ", field("content", /[^\n@]+/), optional($.tags), "\n"),
 
     note: ($) => /[^\n]+\n/,
 
@@ -18,7 +25,7 @@ module.exports = grammar({
           " ",
           "@",
           field("key", /\w+/),
-          optional(seq("(", field("value", /[^)]+/), ")")),
+          optional(seq("(", field("value", /[^)\n]+/), ")")),
         ),
       ),
   },
