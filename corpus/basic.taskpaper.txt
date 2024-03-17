@@ -1,0 +1,14 @@
+; This is a project
+Project:
+    ; This is a task with a tag
+    - Task @done
+    ; This is a note
+    Some note about the project
+
+; This is another project with a tag
+Another Project: @urgent
+    ; This is a nested task
+    - Nested Task
+        ; This is a nested note
+        A detail about the nested task
+
